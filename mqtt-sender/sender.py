@@ -17,15 +17,16 @@ def send_message_loop(client, filename, wait_time, device_name):
             column_names = []
             for row in csv_reader:
                 if line_count == 0:
-                    print(f'Column names are {", ".join(row)}')
+                    print(f'Columns: {", ".join(row)}')
                     column_names = row
                     line_count += 1
                 else:
-                    print(f'Datas are {", ".join(row)}')
+                    print(f'Data:  {", ".join(row)}')
 
                     i = 0
                     while i < len(column_names):
-                        client.publish("device/" + device_name + "/" + column_names[i],row[i])
+                        topic = "device/" + device_name + "/" + column_names[i]
+                        client.publish(topic, row[i])
                         i = i + 1
                     
                     line_count += 1
